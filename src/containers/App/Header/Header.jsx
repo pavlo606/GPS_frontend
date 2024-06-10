@@ -18,7 +18,7 @@ const items = [
     }
 ]
 
-const Header = () => {
+const Header = ({ setAuth }) => {
     const [current, setCurrent] = useState('home');
     const onClick = (e) => {
         console.log('click ', e);
@@ -31,8 +31,11 @@ const Header = () => {
             </div>
             <Menu className='menu' onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
             <Flex align='center' gap='small'>
-                <p>User1</p>
-                <Button type="primary">Log out</Button>
+                <h4>{JSON.parse(localStorage.getItem("login")).username}</h4>
+                <Button type="primary" onClick={() => {
+                    setAuth(null);
+                    localStorage.setItem("login", null);
+                }}>Log out</Button>
             </Flex>
         </div>
     )

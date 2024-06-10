@@ -8,7 +8,7 @@ const Footer = () => {
             <div className="footer-content">
                 <div className="footer-logo"></div>
                 <div className="footer-text">
-                    <p>Fucking Company © 2021 GPS</p>
+                    <p>Lviv Polytechnic © 2024 GPS</p>
                 </div>
             </div>
         </div>

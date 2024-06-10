@@ -6,18 +6,28 @@ import Footer from "../Footer/Footer";
 import Home from "../../Home/Home";
 import RoutePage from "../../RoutePage/RoutePage";
 import Login from "../../Login/Login";
-import Register from "../../Register/Register";
+import SignUp from "../../SignUp/SignUp";
+import MapPage from "../../MapPage/MapPage";
+import ProtectedRoute from "../../../components/ProtectedRoute/ProtectedRoute";
+
 
 const Navigation = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(JSON.parse(localStorage.getItem('login')));
+
     return (
         <div>
-            <Header />
+            {isAuthenticated && <Header setAuth={setIsAuthenticated} />}
             <Routes>
-                <Route path="/*" element={<Navigate to="/home" />} key="/*" />
-                <Route path="/home" element={<Home />} key="/home" />
-                <Route path="/routes" element={<RoutePage />} key="/routes" />
-                <Route path="/login" element={<Login />} key="/login" />
-                <Route path="/register" element={<Register />} key="/register" />
+                <Route element={<ProtectedRoute isAuth={isAuthenticated} redirect="/login" />}>
+                    <Route path="/*" element={<Navigate to="/home" />} key="/*" />
+                    <Route path="/home" element={<Home />} key="/home" />
+                    <Route path="/routes" element={<RoutePage />} key="/routes" />
+                    <Route path="/map/:route_id" element={<MapPage />} key="/map" />
+                </Route>
+                <Route element={<ProtectedRoute isAuth={!isAuthenticated} redirect="/" />}>
+                    <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} key="/login" />
+                    <Route path="/signup" element={<SignUp setAuth={setIsAuthenticated} />} key="/signup" />
+                </Route>
             </Routes>
             <Footer />
         </div>
